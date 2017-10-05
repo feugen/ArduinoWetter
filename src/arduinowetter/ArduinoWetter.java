@@ -1,6 +1,8 @@
 package arduinowetter;
 
 import java.awt.EventQueue;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.JFrame;
 import javax.swing.JMenuBar;
@@ -40,6 +42,7 @@ public class ArduinoWetter {
 	private void initialize() {
 		frame = new JFrame();
 		frame.setBounds(400, 400, 800, 480);
+		frame.setLocationRelativeTo(null);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setTitle("ArduinoWetter - super-physik.de");
 		
@@ -69,8 +72,43 @@ public class ArduinoWetter {
 		
 		//Menüeinträge - Hilfe - Über
 		JMenuItem mntmber = new JMenuItem("Über");
-		mnHilfe.add(mntmber);;
+		mnHilfe.add(mntmber);
+		mntmber.addMouseListener(new ListenerUeber());
 		
+	}
+	
+	
+	private class ListenerUeber implements MouseListener {
+
+		@Override
+		public void mouseClicked(MouseEvent arg0) {
+			// TODO Auto-generated method stub
+		}
+
+		@Override
+		public void mouseEntered(MouseEvent arg0) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseExited(MouseEvent arg0) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mousePressed(MouseEvent arg0) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseReleased(MouseEvent arg0) {
+			// TODO Auto-generated method stub
+			new FensterUeber();
+		}
+
 	}
 
 }
