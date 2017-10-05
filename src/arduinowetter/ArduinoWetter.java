@@ -51,13 +51,17 @@ public class ArduinoWetter {
 		JMenu mnDatei = new JMenu("Datei");
 		menuBar.add(mnDatei);
 		
-		//Menüeinträge - Datei - Einstellungen
-		JMenuItem mneinst = new JMenuItem("Einstellungen");
-		mnDatei.add(mneinst);
-		
 		//Menüeinträge - Datei - Schließen
 		JMenuItem mnexit = new JMenuItem("Schließen");
 		mnDatei.add(mnexit);
+		
+		//Menü - Extras
+		JMenu mnExtras = new JMenu("Extras");
+		menuBar.add(mnExtras);
+		
+		//Menüeinträge - Extras - Einstellungen
+		JMenuItem mneinst = new JMenuItem("Einstellungen");
+		mnExtras.add(mneinst);
 		
 		//Menü - Hilfe
 		JMenu mnHilfe = new JMenu("Hilfe");
