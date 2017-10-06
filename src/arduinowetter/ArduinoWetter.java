@@ -1,9 +1,11 @@
 package arduinowetter;
 
+import java.awt.Component;
 import java.awt.EventQueue;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
@@ -45,6 +47,7 @@ public class ArduinoWetter {
 		frame.setLocationRelativeTo(null);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setTitle("ArduinoWetter - super-physik.de");
+		frame.setResizable(false);
 		
 		//Menüleiste
 		JMenuBar menuBar = new JMenuBar();
@@ -57,6 +60,7 @@ public class ArduinoWetter {
 		//Menüeinträge - Datei - Schließen
 		JMenuItem mnexit = new JMenuItem("Schließen");
 		mnDatei.add(mnexit);
+		mnexit.addMouseListener(new ListenerUeber());
 		
 		//Menü - Extras
 		JMenu mnExtras = new JMenu("Extras");
@@ -82,31 +86,35 @@ public class ArduinoWetter {
 
 		@Override
 		public void mouseClicked(MouseEvent arg0) {
-			// TODO Auto-generated method stub
 		}
 
 		@Override
 		public void mouseEntered(MouseEvent arg0) {
-			// TODO Auto-generated method stub
-			
 		}
 
 		@Override
 		public void mouseExited(MouseEvent arg0) {
-			// TODO Auto-generated method stub
-			
 		}
 
 		@Override
 		public void mousePressed(MouseEvent arg0) {
-			// TODO Auto-generated method stub
-			
 		}
 
 		@Override
 		public void mouseReleased(MouseEvent arg0) {
-			// TODO Auto-generated method stub
-			new FensterUeber();
+			
+			Object quelle = arg0.getSource();
+			// Todo schlechte Lösungen, wenn Buttonbeschriftung sich ändert wird es nicht mehr funktionieren. Objektname wäre besser.
+			String ButtonText = ((JMenuItem)quelle).getText();
+			//Über Fenster aufrufen
+			if (ButtonText.equals("Über")) {
+				new FensterUeber();
+			}
+			//Programm Schließen
+			if (ButtonText.equals("Schließen")) {
+				System.exit(0);
+			}
+			
 		}
 
 	}
