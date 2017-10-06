@@ -9,17 +9,18 @@ public class FensterUeber {
 	private JFrame fenster;
 	private JLabel label;
 	
+	
 	// todo Anklickbar machen.
 	String text = "Autor: Eugen Fischer" + "<br>" +
-            "Version: 0.1" + "<br>" +
+            "Version: " + ArduinoWetter.VERSIONSNUMMER + "<br>" +
             "Datum: 06.10.2017" + "<br>" + "<br>" +
             "Homepage: " + "<a href=\"https://super-physik.de\">https://super-physik.de</a>";
 	
 	public FensterUeber() {
-		initialize();
+		initialisierung();
 	}
 	
-	private void initialize() {
+	private void initialisierung() {
 		fenster = new JFrame();
 		fenster.setBounds(100, 100, 400, 200);
 		fenster.setLocationRelativeTo(null);

@@ -1,22 +1,22 @@
 package arduinowetter;
 
-import java.awt.Component;
 import java.awt.EventQueue;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 
 public class ArduinoWetter {
+	
+	public static final String VERSIONSNUMMER = "0.1";
 
 	private JFrame frame;
 
 	/**
-	 * Launch the application.
+	 * Software starten.
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -32,7 +32,7 @@ public class ArduinoWetter {
 	}
 
 	/**
-	 * Constructor lässt die Initialisierung laufen
+	 * Konstructor lässt die Initialisierung laufen
 	 */
 	public ArduinoWetter() {
 		initialize();
@@ -43,7 +43,7 @@ public class ArduinoWetter {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(400, 400, 800, 480);
+		frame.setBounds(400, 400, 1280, 720);
 		frame.setLocationRelativeTo(null);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setTitle("ArduinoWetter - super-physik.de");
@@ -60,7 +60,7 @@ public class ArduinoWetter {
 		//Menüeinträge - Datei - Schließen
 		JMenuItem mnexit = new JMenuItem("Schließen");
 		mnDatei.add(mnexit);
-		mnexit.addMouseListener(new ListenerUeber());
+		mnexit.addMouseListener(new ListenerMain());
 		
 		//Menü - Extras
 		JMenu mnExtras = new JMenu("Extras");
@@ -69,6 +69,7 @@ public class ArduinoWetter {
 		//Menüeinträge - Extras - Einstellungen
 		JMenuItem mneinst = new JMenuItem("Einstellungen");
 		mnExtras.add(mneinst);
+		mneinst.addMouseListener(new ListenerMain());
 		
 		//Menü - Hilfe
 		JMenu mnHilfe = new JMenu("Hilfe");
@@ -77,12 +78,12 @@ public class ArduinoWetter {
 		//Menüeinträge - Hilfe - Über
 		JMenuItem mntmber = new JMenuItem("Über");
 		mnHilfe.add(mntmber);
-		mntmber.addMouseListener(new ListenerUeber());
+		mntmber.addMouseListener(new ListenerMain());
 		
 	}
 	
 	
-	private class ListenerUeber implements MouseListener {
+	private class ListenerMain implements MouseListener {
 
 		@Override
 		public void mouseClicked(MouseEvent arg0) {
@@ -104,15 +105,19 @@ public class ArduinoWetter {
 		public void mouseReleased(MouseEvent arg0) {
 			
 			Object quelle = arg0.getSource();
-			// Todo schlechte Lösungen, wenn Buttonbeschriftung sich ändert wird es nicht mehr funktionieren. Objektname wäre besser.
+			// Todo schlechte Lösungen, wenn Buttonbeschriftung sich ändert wird es nicht mehr funktionieren.
+			// Objektname wäre besser.
 			String ButtonText = ((JMenuItem)quelle).getText();
 			//Über Fenster aufrufen
 			if (ButtonText.equals("Über")) {
 				new FensterUeber();
 			}
 			//Programm Schließen
-			if (ButtonText.equals("Schließen")) {
+			else if (ButtonText.equals("Schließen")) {
 				System.exit(0);
+			}
+			else if (ButtonText.equals("Einstellungen")) {
+				new FensterEinstellungen();
 			}
 			
 		}
