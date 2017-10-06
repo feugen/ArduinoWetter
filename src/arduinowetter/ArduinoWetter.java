@@ -3,6 +3,8 @@ package arduinowetter;
 import java.awt.EventQueue;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.JFrame;
 import javax.swing.JMenuBar;
@@ -14,6 +16,9 @@ public class ArduinoWetter {
 	public static final String VERSIONSNUMMER = "0.1";
 
 	private JFrame frame;
+	//MenuItemMap, dient dazu um Items eine Nummer zuzuweisen, über welche festgestellt wird, welcher Knopf betätigt wurde.
+	//Zuweisung erfolgt in der Methode initialisierung.
+	private static Map<JMenuItem, Integer> menuMap = new HashMap<JMenuItem, Integer>(10);
 
 	/**
 	 * Software starten.
@@ -35,13 +40,13 @@ public class ArduinoWetter {
 	 * Konstructor lässt die Initialisierung laufen
 	 */
 	public ArduinoWetter() {
-		initialize();
+		initialisierung();
 	}
 
 	/**
 	 * Initialisierung.
 	 */
-	private void initialize() {
+	private void initialisierung() {
 		frame = new JFrame();
 		frame.setBounds(400, 400, 1280, 720);
 		frame.setLocationRelativeTo(null);
@@ -61,6 +66,7 @@ public class ArduinoWetter {
 		JMenuItem mnexit = new JMenuItem("Schließen");
 		mnDatei.add(mnexit);
 		mnexit.addMouseListener(new ListenerMain());
+		menuMap.put(mnexit, 0);
 		
 		//Menü - Extras
 		JMenu mnExtras = new JMenu("Extras");
@@ -70,6 +76,7 @@ public class ArduinoWetter {
 		JMenuItem mneinst = new JMenuItem("Einstellungen");
 		mnExtras.add(mneinst);
 		mneinst.addMouseListener(new ListenerMain());
+		menuMap.put(mneinst, 1);
 		
 		//Menü - Hilfe
 		JMenu mnHilfe = new JMenu("Hilfe");
@@ -79,6 +86,7 @@ public class ArduinoWetter {
 		JMenuItem mntmber = new JMenuItem("Über");
 		mnHilfe.add(mntmber);
 		mntmber.addMouseListener(new ListenerMain());
+		menuMap.put(mntmber, 2);
 		
 	}
 	
@@ -104,20 +112,20 @@ public class ArduinoWetter {
 		@Override
 		public void mouseReleased(MouseEvent arg0) {
 			
-			Object quelle = arg0.getSource();
-			// Todo schlechte Lösungen, wenn Buttonbeschriftung sich ändert wird es nicht mehr funktionieren.
-			// Objektname wäre besser.
-			String ButtonText = ((JMenuItem)quelle).getText();
-			//Über Fenster aufrufen
-			if (ButtonText.equals("Über")) {
-				new FensterUeber();
-			}
+			JMenuItem quelle = (JMenuItem)arg0.getSource();
+			int itemIndex = menuMap.get(quelle);
+			
 			//Programm Schließen
-			else if (ButtonText.equals("Schließen")) {
+			if (itemIndex == 0) {
 				System.exit(0);
 			}
-			else if (ButtonText.equals("Einstellungen")) {
+			//Einstellungen aufrufen
+			else if (itemIndex == 1) {
 				new FensterEinstellungen();
+			}
+			//Über Fenster aufrufen
+			else if (itemIndex == 2) {
+				new FensterUeber();
 			}
 			
 		}

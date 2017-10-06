@@ -8,7 +8,6 @@ public class FensterEinstellungen {
 	
 	public FensterEinstellungen() {
 		initialisierung();
-		
 	}
 	
 	private void initialisierung() {
