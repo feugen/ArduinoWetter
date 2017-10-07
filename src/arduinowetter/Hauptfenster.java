@@ -47,8 +47,8 @@ public class Hauptfenster {
 		JTabbedPane tabLeiste = new JTabbedPane();
 		JPanel tab1 = new JPanel();
 		JPanel tab2 = new JPanel();
-		tabLeiste.addTab("Tab1", tab1);
-		tabLeiste.addTab("Tab2", tab2);
+		tabLeiste.addTab("Arduino", tab1);
+		tabLeiste.addTab("Extern", tab2);
 		
 		//Tab1 Layout und Elemente
 		tab1.setLayout(new GridLayout(2, 2));
@@ -62,7 +62,6 @@ public class Hauptfenster {
 		tab2.add(new JButton("Button des zweiten Tabs"));
 		
 		fenster.add(tabLeiste);
-		
 		
 		//Menüleiste
 		JMenuBar menuBar = new JMenuBar();
@@ -131,9 +130,6 @@ public class Hauptfenster {
 			else if (arg0.getSource() == mnueber) {
 				new FensterUeber();
 			}
-			
 		}
-
 	}
-
 }

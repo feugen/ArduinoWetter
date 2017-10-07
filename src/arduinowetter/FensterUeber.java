@@ -48,7 +48,7 @@ public class FensterUeber {
 		labelWebseite.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		labelWebseite.addMouseListener(new ListenerFensterUeber());
 		
-		knopf = new JButton("Schliessen");
+		knopf = new JButton("Schließen");
 		knopf.setBounds(250, 170, 120, 25);
 		knopf.addMouseListener(new ListenerFensterUeber());
 		
@@ -93,6 +93,5 @@ public class FensterUeber {
 				fenster.setVisible(false);
 			}
 		}
-
 	}
 }
