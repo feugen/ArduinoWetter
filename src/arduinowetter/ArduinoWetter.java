@@ -6,6 +6,7 @@ import java.awt.EventQueue;
 public class ArduinoWetter {
 	
 	public static final String VERSIONSNUMMER = "0.1";
+	public static final String VERSIONSDATUM = "07.10.2017";
 
 	/**
 	 * Launch application.

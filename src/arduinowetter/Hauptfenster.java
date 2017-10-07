@@ -25,7 +25,7 @@ public class Hauptfenster {
 	
 
 	/**
-	 * Constructor
+	 * Konstruktor
 	 */
 	public Hauptfenster() {
 		initialisierung();
@@ -33,7 +33,7 @@ public class Hauptfenster {
 	
 	
 	/**
-	 * Initialization
+	 * Initialisierung
 	 */
 	private void initialisierung() {
 		fenster = new JFrame("ArduinoWetter - super-physik.de");
@@ -121,7 +121,6 @@ public class Hauptfenster {
 			
 			//Programm Schließen
 			if (arg0.getSource() == mnexit) {
-				System.out.println("Test");
 				System.exit(0);
 			}
 			//Einstellungen aufrufen
