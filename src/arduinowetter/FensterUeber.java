@@ -19,7 +19,6 @@ public class FensterUeber {
 	private JLabel labelWebseite;
 	private JButton knopf;
 	
-	// todo Anklickbar machen
 	String text = "Autor: Eugen Fischer" + "<br>" +
             "Version: " + ArduinoWetter.VERSIONSNUMMER + "<br>" +
             "Datum: " + ArduinoWetter.VERSIONSDATUM + "<br>";
