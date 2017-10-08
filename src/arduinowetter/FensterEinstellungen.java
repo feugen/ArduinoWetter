@@ -2,6 +2,8 @@ package arduinowetter;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -10,6 +12,12 @@ import javax.swing.JFrame;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.ListSelectionModel;
+import javax.swing.JComboBox;
+import javax.swing.JInternalFrame;
+import javax.swing.border.LineBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 public class FensterEinstellungen {
 	
@@ -21,8 +29,11 @@ public class FensterEinstellungen {
 	private JButton uebernehmen;
 	private JButton abbrechen;
 	
-	private JList<String> liste;
-	String[] menuliste = {"Datenquelle", "Sonstiges"};
+	private JList liste;
+	private final String[] menuliste = {"Datenquelle", "Sonstiges"};
+	
+	private JInternalFrame ansichtDatenquelle = null;
+	private JInternalFrame ansichtSonstiges = null;
 	
 	public FensterEinstellungen() {
 		initialisierung();
@@ -35,12 +46,12 @@ public class FensterEinstellungen {
 		fenster.setLocationRelativeTo(null);
 		fenster.setAlwaysOnTop(true);
 		fenster.setTitle("ArduinoWetter - super-physik.de");
-		fenster.setLayout(null);
+		fenster.getContentPane().setLayout(null);
 		fenster.setResizable(false);
 		fenster.setVisible(true);
 		
 		leiste = new JPanel(new BorderLayout());
-		ansicht = new JPanel();
+		ansicht = new JPanel(new BorderLayout(0, 0));
 		knoepfe = new JPanel(null);
 		
 		//Setze die JPanel Elemente
@@ -50,8 +61,10 @@ public class FensterEinstellungen {
 		knoepfe.setBounds(165, 385, 625, 60);
 		
 		//Weise die Menüliste dem Listenhalter zu
-		liste = new JList<String>(menuliste);
+		liste = new JList(menuliste);
 		liste.setFont(liste.getFont().deriveFont(17.0f));
+		liste.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		liste.addListSelectionListener(new ListenerEinstellungen());
 		
 		//Setze die einzelnen Knöpfe
 		uebernehmen = new JButton("Übernehmen");
@@ -62,20 +75,36 @@ public class FensterEinstellungen {
 		abbrechen.addMouseListener(new ListenerEinstellungen());
 		
 		//Platzieren Platzhalter auf dem Haupt Menüfenster
-		fenster.add(leiste);
-		fenster.add(ansicht);
-		fenster.add(knoepfe);
+		fenster.getContentPane().add(leiste);
+		fenster.getContentPane().add(ansicht);
+		fenster.getContentPane().add(knoepfe);
 		
-		//Platziere Leisteneinträge
-		leiste.add(new JScrollPane(liste));
+		//Platziere Leisteneinträge auf Leiste
+		JScrollPane scrollPane = new JScrollPane(liste);
+		leiste.add(scrollPane);
 		
 		//Platziere Knöpfe auf Knopfhalter
 		knoepfe.add(abbrechen);
 		knoepfe.add(uebernehmen);
+		
+		//Platziere InternalFrame auf Ansicht
+		ansichtDatenquelle = new JInternalFrame("Datenquelle");
+		ansichtDatenquelle.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
+		ansicht.add(ansichtDatenquelle, BorderLayout.CENTER);
+		ansichtDatenquelle.setVisible(true);
+		
+		
+		//Wenn Sonstiges ausgewählt, so soll ein anderes JInternalFrame angezeigt werden.
+		//Erzeuge ihn hier und schalte um mit Listener je nach Auswahl.
+		ansichtSonstiges = new JInternalFrame("Sonstiges");
+		ansichtSonstiges.setBorder(new LineBorder(new Color(0 ,0 ,0), 1, true));
+		ansichtSonstiges.setVisible(false);
+		
+		//Platziere Ansichteinträge
 
 	}
 	
-	private class ListenerEinstellungen implements MouseListener{
+	private class ListenerEinstellungen implements MouseListener, ListSelectionListener{
 
 		@Override
 		public void mouseClicked(MouseEvent e) {
@@ -106,7 +135,23 @@ public class FensterEinstellungen {
 			}
 			
 		}
-		
-	}
 
+		@Override
+		public void valueChanged(ListSelectionEvent e) {
+			if (liste == e.getSource()) {
+				if (e.getValueIsAdjusting()) {
+					if (liste.getSelectedIndex() == 0) {
+						ansichtSonstiges.setVisible(false);
+						ansicht.remove(ansichtSonstiges);
+						ansichtDatenquelle.setVisible(true);
+					}
+					else if (liste.getSelectedIndex() == 1) {
+						ansichtDatenquelle.setVisible(false);
+						ansicht.add(ansichtSonstiges, BorderLayout.CENTER);
+						ansichtSonstiges.setVisible(true);
+					}
+				}
+			}
+		}
+	}
 }
