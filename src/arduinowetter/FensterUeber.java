@@ -12,16 +12,24 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
+import javax.swing.JInternalFrame;
+import javax.swing.border.LineBorder;
+import java.awt.Color;
+import javax.swing.JPanel;
+import java.awt.BorderLayout;
 
 public class FensterUeber {	
+	// TODO Beim Klicken wird das innere Fenster aktiviert und blau markiert - beheben.
 	private JFrame fenster;
 	private JLabel label;
 	private JLabel labelWebseite;
 	private JButton knopf;
+	private JInternalFrame inneresFenster;
 	
 	String text = "Autor: Eugen Fischer" + "<br>" +
             "Version: " + ArduinoWetter.VERSIONSNUMMER + "<br>" +
             "Datum: " + ArduinoWetter.VERSIONSDATUM + "<br>";
+	
 	
 	public FensterUeber() {
 		initialisierung();
@@ -36,25 +44,34 @@ public class FensterUeber {
 		fenster.getContentPane().setLayout(null);
 		fenster.setResizable(false);
 		
+		JPanel panel = new JPanel();
+		panel.setBounds(0, 0, 394, 218);
+		fenster.getContentPane().add(panel);
+		panel.setLayout(new BorderLayout(0, 0));
+		
+		inneresFenster = new JInternalFrame("Über");
+		panel.add(inneresFenster);
+		inneresFenster.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
+		inneresFenster.getContentPane().setLayout(null);
+		
 		label = new JLabel("<html><div style='text-align: center;'>" + text + "<br></div></html>");
-		label.setBounds(0, 0, 400, 120);
+		label.setBounds(118, 43, 143, 60);
 		label.setHorizontalAlignment(SwingConstants.CENTER);
 		label.setVerticalAlignment(SwingConstants.BOTTOM);
+		inneresFenster.getContentPane().add(label);
 		
 		labelWebseite = new JLabel("<html> Webseite : <a href=\"https://super-physik.de\">https://super-physik.de</a>");
-		labelWebseite.setBounds(0, 120, 400, 20);
+		labelWebseite.setBounds(75, 115, 237, 15);
 		labelWebseite.setHorizontalAlignment(SwingConstants.CENTER);
-		labelWebseite.setVerticalAlignment(SwingConstants.TOP);
 		labelWebseite.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		labelWebseite.addMouseListener(new ListenerFensterUeber());
+		inneresFenster.getContentPane().add(labelWebseite);
 		
 		knopf = new JButton("Schließen");
-		knopf.setBounds(250, 170, 120, 25);
+		knopf.setBounds(279, 157, 101, 25);
 		knopf.addMouseListener(new ListenerFensterUeber());
-		
-		fenster.getContentPane().add(knopf);
-		fenster.getContentPane().add(label);
-		fenster.getContentPane().add(labelWebseite);
+		inneresFenster.getContentPane().add(knopf);
+		inneresFenster.setVisible(true);
 		fenster.setVisible(true);
 	}
 	

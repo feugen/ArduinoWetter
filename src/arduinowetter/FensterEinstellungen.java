@@ -57,7 +57,6 @@ public class FensterEinstellungen {
 		//Setze die JPanel Elemente
 		leiste.setBounds(0, 0, 160, 445);
 		ansicht.setBounds(165, 0, 625, 380);
-		ansicht.setBackground(Color.lightGray);;
 		knoepfe.setBounds(165, 385, 625, 60);
 		
 		//Weise die Menüliste dem Listenhalter zu
@@ -68,10 +67,10 @@ public class FensterEinstellungen {
 		
 		//Setze die einzelnen Knöpfe
 		uebernehmen = new JButton("Übernehmen");
-		uebernehmen.setBounds(475, 15, 140, 25);
+		uebernehmen.setBounds(492, 15, 123, 25);
 		uebernehmen.addMouseListener(new ListenerEinstellungen());
 		abbrechen = new JButton("Abbrechen");
-		abbrechen.setBounds(325, 15, 140, 25);
+		abbrechen.setBounds(357, 15, 123, 25);
 		abbrechen.addMouseListener(new ListenerEinstellungen());
 		
 		//Platzieren Platzhalter auf dem Haupt Menüfenster
