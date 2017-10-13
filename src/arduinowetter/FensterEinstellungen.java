@@ -2,8 +2,6 @@ package arduinowetter;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -18,22 +16,31 @@ import javax.swing.JInternalFrame;
 import javax.swing.border.LineBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.JLabel;
+import java.awt.Font;
+import javax.swing.DefaultComboBoxModel;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class FensterEinstellungen {
 	
-	private JFrame fenster;
-	private JPanel leiste;
-	private JPanel ansicht;
-	private JPanel knoepfe;
+	private static JFrame fenster;
+	private static JPanel leiste;
+	private static JPanel ansicht;
+	private static JPanel knoepfe;
 	
-	private JButton uebernehmen;
-	private JButton abbrechen;
+	private static JButton uebernehmen;
+	private static JButton abbrechen;
 	
-	private JList liste;
+	private static JList liste;
 	private final String[] menuliste = {"Datenquelle", "Sonstiges"};
 	
-	private JInternalFrame ansichtDatenquelle = null;
-	private JInternalFrame ansichtSonstiges = null;
+	private static JInternalFrame ansichtDatenquelle = null;
+	private static JInternalFrame ansichtSonstiges = null;
+	
+	private static JComboBox comboBox_extern = null;
+	private static JComboBox comboBox_baudrate = null;
+	private static JComboBox comboBox_verbindung = null;
 	
 	public FensterEinstellungen() {
 		initialisierung();
@@ -90,6 +97,57 @@ public class FensterEinstellungen {
 		ansichtDatenquelle = new JInternalFrame("Datenquelle");
 		ansichtDatenquelle.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
 		ansicht.add(ansichtDatenquelle, BorderLayout.CENTER);
+		ansichtDatenquelle.getContentPane().setLayout(null);
+		
+		
+		JLabel lblSerielleVerbindung = new JLabel("Serielle Verbindung");
+		lblSerielleVerbindung.setFont(new Font("Dialog", Font.BOLD, 14));
+		lblSerielleVerbindung.setBounds(209, 18, 171, 15);
+		ansichtDatenquelle.getContentPane().add(lblSerielleVerbindung);
+		
+		JLabel lblVerbindung = new JLabel("Verbindung");
+		lblVerbindung.setBounds(136, 61, 114, 15);
+		ansichtDatenquelle.getContentPane().add(lblVerbindung);
+		
+		JLabel lblBaud = new JLabel("Baudrate");
+		lblBaud.setBounds(369, 61, 95, 15);
+		ansichtDatenquelle.getContentPane().add(lblBaud);
+		
+		comboBox_verbindung = new JComboBox();
+		comboBox_verbindung.setBounds(99, 88, 171, 24);
+		ansichtDatenquelle.getContentPane().add(comboBox_verbindung);
+		
+		comboBox_baudrate = new JComboBox();
+		comboBox_baudrate.setModel(new DefaultComboBoxModel(new String[] {"300", "600", "1200", "2400", "4800", "9600 (Standard)", "14400", "19200", "28800", "31250", "38400", "57600", "115200"}));
+		comboBox_baudrate.setSelectedIndex(5);
+		comboBox_baudrate.setBounds(326, 88, 171, 24);
+		ansichtDatenquelle.getContentPane().add(comboBox_baudrate);
+		
+		JLabel lblInfo = new JLabel("Info:");
+		lblInfo.setBounds(99, 143, 46, 15);
+		ansichtDatenquelle.getContentPane().add(lblInfo);
+		
+		JLabel lblInfotext = new JLabel("keine Info");
+		lblInfotext.setBounds(149, 143, 121, 15);
+		ansichtDatenquelle.getContentPane().add(lblInfotext);
+		
+		JLabel lblExterne_Quelle = new JLabel("Externe Quelle");
+		lblExterne_Quelle.setFont(new Font("Dialog", Font.BOLD, 14));
+		lblExterne_Quelle.setBounds(225, 219, 171, 15);
+		ansichtDatenquelle.getContentPane().add(lblExterne_Quelle);
+		
+		comboBox_extern = new JComboBox();
+		comboBox_extern.setModel(new DefaultComboBoxModel(new String[] {"OpenWeatherMap.org"}));
+		comboBox_extern.setBounds(179, 246, 221, 24);
+		ansichtDatenquelle.getContentPane().add(comboBox_extern);
+		
+		JButton btnVerbindungstest = new JButton("Verbindung testen");
+		btnVerbindungstest.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnVerbindungstest.setBounds(326, 138, 171, 25);
+		ansichtDatenquelle.getContentPane().add(btnVerbindungstest);
 		ansichtDatenquelle.setVisible(true);
 		
 		
@@ -99,8 +157,16 @@ public class FensterEinstellungen {
 		ansichtSonstiges.setBorder(new LineBorder(new Color(0 ,0 ,0), 1, true));
 		ansichtSonstiges.setVisible(false);
 		
-		//Platziere Ansichteinträge
-
+		//Platziere weitere Elemente
+		
+		//Lade die zuletzt gespeicherten Einstellungen welche dann gesetzt werden.
+		Einstellungen.getEinstellungenLaden();
+	}
+	
+	public static void setEinstellungen(int combobox_baud_index, int combobox_extern_index) {
+		
+		comboBox_extern.setSelectedIndex(combobox_extern_index);
+		comboBox_baudrate.setSelectedIndex(combobox_baud_index);
 	}
 	
 	private class ListenerEinstellungen implements MouseListener, ListSelectionListener{
@@ -128,8 +194,9 @@ public class FensterEinstellungen {
 				fenster.setVisible(false);
 			}
 			if(uebernehmen == e.getSource()) {
-				// TODO Die Auswahl irgendwo speichern und danach schließen.
-				//Schließe das Fenster wenn auf Abbrechen geklickt
+
+				Einstellungen.setEinstellungenSpeichern(comboBox_baudrate.getSelectedIndex(), comboBox_extern.getSelectedIndex());
+
 				fenster.setVisible(false);
 			}
 			

@@ -1,6 +1,7 @@
 package arduinowetter;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -38,17 +39,20 @@ public class Hauptfenster {
 	private void initialisierung() {
 		fenster = new JFrame("ArduinoWetter - super-physik.de");
 		fenster.setBounds(400, 400, 1280, 720);
+		fenster.setMinimumSize(new Dimension(800, 480));
 		fenster.setLocationRelativeTo(null);
 		fenster.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		fenster.setResizable(false);
+		fenster.setResizable(true);
 		fenster.setVisible(true);
 		
 		//Tab Leiste und Tabs erzeugen
 		JTabbedPane tabLeiste = new JTabbedPane();
 		JPanel tab1 = new JPanel();
 		JPanel tab2 = new JPanel();
+		JPanel tab3 = new JPanel();
 		tabLeiste.addTab("Arduino", tab1);
 		tabLeiste.addTab("Extern", tab2);
+		tabLeiste.addTab("Übungen", tab3);
 		
 		//Tab1 Layout und Elemente
 		tab1.setLayout(new GridLayout(2, 2));
@@ -95,7 +99,6 @@ public class Hauptfenster {
 		mnueber.addMouseListener(new ListenerMain());
 		
 	}
-	
 	
 	private class ListenerMain implements MouseListener {
 
