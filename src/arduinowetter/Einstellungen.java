@@ -10,7 +10,7 @@ public class Einstellungen {
 	
 	private static String konfigurationsdatei = "config.properties";
 	
-	public static void setEinstellungenSpeichern(int combobox_baudrate_index, int combobox_extern_index){
+	public static void setEinstellungenSpeichern(int combobox_baudrate_index, int combobox_extern_index, boolean checkboxSpracheAuto){
 		
 		Properties prop = new Properties();
 		FileOutputStream output = null;
@@ -23,6 +23,7 @@ public class Einstellungen {
 		
 		prop.setProperty("ComboBox_Extern", Integer.toString(combobox_extern_index));
 		prop.setProperty("ComboBox_Baudrate", Integer.toString(combobox_baudrate_index));
+		prop.setProperty("CheckBox_AutoLang", Boolean.toString(checkboxSpracheAuto));
 
 		try {
 			prop.store(output, null);
@@ -57,6 +58,11 @@ public class Einstellungen {
 			combobox_baudrate_index = Integer.valueOf(prop.getProperty("ComboBox_Baudrate"));
 		}
 		
-		FensterEinstellungen.setEinstellungen(combobox_baudrate_index, combobox_extern_index);
+		boolean checkboxSpracheAuto = true;
+		if (prop.getProperty("CheckBox_AutoLang") !=null) {
+			checkboxSpracheAuto = Boolean.valueOf(prop.getProperty("CheckBox_AutoLang"));
+		}
+		
+		FensterEinstellungen.setEinstellungen(combobox_baudrate_index, combobox_extern_index, checkboxSpracheAuto);
 	}
 }
