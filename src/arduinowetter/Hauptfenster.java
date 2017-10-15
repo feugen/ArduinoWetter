@@ -1,8 +1,17 @@
 package arduinowetter;
 
+import java.awt.AWTException;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.Image;
+import java.awt.MenuItem;
+import java.awt.PopupMenu;
+import java.awt.SystemTray;
+import java.awt.Toolkit;
+import java.awt.TrayIcon;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -24,6 +33,10 @@ public class Hauptfenster {
 	private JPanel panel3 = new JPanel();
 	private JPanel panel4 = new JPanel();
 	
+	private MenuItem trayItemSchliessen = null;
+	private MenuItem trayitemAction = null;
+	private TrayIcon trayIcon = null;
+	
 
 	/**
 	 * Konstruktor
@@ -37,6 +50,43 @@ public class Hauptfenster {
 	 * Initialisierung
 	 */
 	private void initialisierung() {
+		
+		//Systemtray
+		
+		if(!SystemTray.isSupported()) {
+			System.out.println("Achtung, Systemtray wird auf diesem System nicht unterstützt");
+		}else {
+			//Systemtray holen
+			SystemTray systemTray = SystemTray.getSystemTray();
+			Image bild = Toolkit.getDefaultToolkit().getImage("gruen.png");
+			
+			//Popup Menü erstellen
+			PopupMenu trayPopupMenu = new PopupMenu();
+			
+			//1. Item erstellen und hinzufügen
+			trayitemAction = new MenuItem("Über");
+			trayPopupMenu.add(trayitemAction);
+			trayitemAction.addActionListener(new ListenerMain());
+			
+			//2. Item erstellen
+		    trayItemSchliessen = new MenuItem("Schließen");
+		    trayItemSchliessen.addActionListener(new ListenerMain()); 
+		    trayPopupMenu.add(trayItemSchliessen);
+		    trayItemSchliessen.addActionListener(new ListenerMain());
+		    
+		    //TrayIcon aufsetzen
+		    trayIcon = new TrayIcon(bild, "SystemTray Demo", trayPopupMenu);
+		    //Auf Standardgröße je nach Betriebssystem setzen
+		    trayIcon.setImageAutoSize(true);
+		    trayIcon.addMouseListener(new ListenerMain());
+		    
+		    try{
+		        systemTray.add(trayIcon);
+		    }catch(AWTException awtException){
+		        awtException.printStackTrace();
+		    }
+		}
+
 		fenster = new JFrame("ArduinoWetter - super-physik.de");
 		fenster.setBounds(400, 400, 1280, 720);
 		fenster.setMinimumSize(new Dimension(800, 480));
@@ -100,10 +150,17 @@ public class Hauptfenster {
 		
 	}
 	
-	private class ListenerMain implements MouseListener {
+	private class ListenerMain implements MouseListener, ActionListener {
 
 		@Override
 		public void mouseClicked(MouseEvent arg0) {
+			if (trayIcon != null && arg0.getSource() == trayIcon) {
+				if (fenster.isVisible()) {
+					fenster.setVisible(false);
+				}else {
+					fenster.setVisible(true);
+				}
+			}
 		}
 
 		@Override
@@ -131,6 +188,16 @@ public class Hauptfenster {
 			}
 			//Über Fenster aufrufen
 			else if (arg0.getSource() == mnueber) {
+				new FensterUeber();
+			}
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			if (trayItemSchliessen != null && e.getSource() == trayItemSchliessen) {
+				System.exit(0);
+			}
+			if (trayitemAction != null && e.getSource() == trayitemAction) {
 				new FensterUeber();
 			}
 		}
